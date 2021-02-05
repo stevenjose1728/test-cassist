@@ -5,6 +5,10 @@ import {Product, DataTableColumn, Category} from 'models';
 import {Globals} from 'utils';
 import {RouteComponentProps} from 'react-router'
 import {ProductService, CategoryService} from 'services';
+type OptionSelect = {
+    label: string,
+    value: string | number
+}
 type State = {
     showModal:boolean,
     editElement: Product | null,
@@ -12,12 +16,11 @@ type State = {
     products: Product[],
     originalProducts: Product[],
     categories: Category[],
-    categoriesSelect: Array<{
-        label: string,
-        value: number | string
-    }>,
+    categoriesSelect: Array<OptionSelect>,
+    stockSelect: OptionSelect[],
     form: {
         category_id: number | string,
+        stock: number | string,
     }
 }
 type Props = RouteComponentProps
@@ -28,8 +31,23 @@ class Products extends React.Component<Props, State> {
             showModal: false,
             editElement: null,
             categoriesSelect: [],
+            stockSelect: [
+                {
+                    label: 'Disponibles',
+                    value: 1
+                },
+                {
+                    label: 'Agotados',
+                    value: 2
+                },
+                {
+                    label: 'Mas vendidos',
+                    value: 3
+                },
+            ],
             form:{
-                category_id: ''
+                category_id: '',
+                stock: ''
             },
             columns: [
                 {
@@ -90,7 +108,7 @@ class Products extends React.Component<Props, State> {
             ],
             categories: [],
             products: [],
-            originalProducts: []
+            originalProducts: [],
         }
     }
     componentDidMount(){
@@ -148,6 +166,38 @@ class Products extends React.Component<Props, State> {
         })
     }
 
+    filterByStock = () =>{
+        let condition: {
+            key: keyof Product,
+            value: boolean
+        }
+        switch(this.state.form.stock){
+            case '1':
+                condition = {
+                    key: 'available',
+                    value: true
+                }
+                break
+            case '2':
+                condition = {
+                    key: 'available',
+                    value: false
+                }
+                break
+            case '3':
+                condition = {
+                    key: 'best_seller',
+                    value: true
+                }
+                break
+        }
+        let products = [... this.state.originalProducts]
+        products = products.filter((element: Product) => element[condition.key] === condition.value)
+        this.setState({
+            products
+        })
+    }
+
     change = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, callback: Function | undefined = undefined) =>{
         const name = e.target.name
         const value = e.target.value
@@ -182,7 +232,16 @@ class Products extends React.Component<Props, State> {
                                         options={this.state.categoriesSelect}
                                     />
                                 </div>
-                                <div className="col-4"></div>
+                                <div className="col-4">
+                                    <Select
+                                        label="Stock"
+                                        enableAll={true}
+                                        name="stock"
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.change(e, this.filterByStock)}
+                                        value={this.state.form.stock}
+                                        options={this.state.stockSelect}
+                                    />
+                                </div>
                                 <div className="col-4"></div>
                             </div>
                         </Col>
