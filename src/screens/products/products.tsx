@@ -114,7 +114,7 @@ class Products extends React.Component<Props, State> {
                     <Row>
                         <Col md={12}>
                             <CardHeader>
-                                Listado de Categorias
+                                Listado de Productos
                             </CardHeader>
                         </Col>
                         <Col md={12}>
