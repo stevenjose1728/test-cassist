@@ -20,6 +20,7 @@ interface SelectProps {
     onChange?: any,
     required?:boolean,
     options:Options[],
+    enableAll?: boolean
 }
 
 export default class Select extends React.Component<SelectProps, {value:string|number|{}}> {
@@ -65,7 +66,7 @@ export default class Select extends React.Component<SelectProps, {value:string|n
                     className={ `form-control ${ this.props.className }` }
                     onChange={this.handleChange}
                 >
-					<option value="" disabled>Seleccione</option>
+					<option value="" disabled={!this.props.enableAll}>Seleccione</option>
 					{ this.props.options.map((i,index) => {
 						return (
 							<option 

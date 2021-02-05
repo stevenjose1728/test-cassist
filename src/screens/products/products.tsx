@@ -97,9 +97,16 @@ class Products extends React.Component<Props, State> {
         try{
             const products = await ProductService.get()
             const categories = await CategoryService.get()
+            const categoriesSelect = categories.map((element: Category) => {
+                return {
+                    label: element.name,
+                    value: element.categori_id
+                }
+            })
             this.setState({
                 products,
-                categories
+                categories,
+                categoriesSelect
             })
         }catch(e){
             Globals.showError()
@@ -129,6 +136,8 @@ class Products extends React.Component<Props, State> {
                             <div className="row">
                                 <div className="col-4">
                                     <Select
+                                        label="Categoria"
+                                        enableAll={true}
                                         name="category_id"
                                         onChange={this.change}
                                         value={this.state.form.category_id}
