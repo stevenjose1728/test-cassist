@@ -1,15 +1,16 @@
 import React from 'react';
 import { Card, CardHeader, Datatable,Select, Button } from 'components';
 import { Row, Col } from 'react-bootstrap';
-import {Product, DataTableColumn} from 'models';
+import {Product, DataTableColumn, Category} from 'models';
 import {Globals} from 'utils';
 import {RouteComponentProps} from 'react-router'
-import {ProductService} from 'services';
+import {ProductService, CategoryService} from 'services';
 type State = {
     showModal:boolean,
     editElement: Product | null,
     columns: DataTableColumn[],
-    categories: Product[],
+    products: Product[],
+    categories: Category[],
     categoriesSelect: Array<{
         label: string,
         value: number | string
@@ -76,7 +77,8 @@ class Products extends React.Component<Props, State> {
                     center: true,
                 }
             ],
-            categories: []
+            categories: [],
+            products: []
         }
     }
     componentDidMount(){
@@ -93,8 +95,10 @@ class Products extends React.Component<Props, State> {
     load = async () => {
         Globals.setLoading()
         try{
-            const categories = await ProductService.get()
+            const products = await ProductService.get()
+            const categories = await CategoryService.get()
             this.setState({
+                products,
                 categories
             })
         }catch(e){
@@ -137,10 +141,10 @@ class Products extends React.Component<Props, State> {
                         </Col>
                         <Col md={12}>
                             <Datatable
-                                paginationTotalRows={this.state.categories.length}
+                                paginationTotalRows={this.state.products.length}
                                 onChangePerPage={() => this.load() }
                                 onChangePage={() => this.load()}
-                                data={this.state.categories}
+                                data={this.state.products}
                                 columns={this.state.columns}
                                 className="-striped -highlight"
                             />
