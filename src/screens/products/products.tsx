@@ -49,14 +49,14 @@ class Products extends React.Component<Props, State> {
                     selector: 'available',
                     sortable: true,
                     center: true,
-                    cell: (element: Product) => <p> {element.available ? 'Disponible' : 'No disponible'} </p>
+                    cell: (element: Product) => <p className="text-dark w-100 text-center" > {element.available ? 'Disponible' : 'No disponible'} </p>
                 },
                 {
                     name: 'Mas vendido',
                     selector: 'best_seller',
                     sortable: true,
                     center: true,
-                    cell: (element: Product) => <p> {element.best_seller ? 'Mas vendido' : 'No es el mas vendido'} </p>
+                    cell: (element: Product) => <p className="text-dark w-100 text-center" > {element.best_seller ? 'Mas vendido' : 'No es el mas vendido'} </p>
                 },
                 {
                     name: 'Descripcion',
