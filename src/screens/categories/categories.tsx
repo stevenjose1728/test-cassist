@@ -30,32 +30,7 @@ class Categories extends React.Component<Props, State> {
                     selector: 'name',
                     sortable: true,
                     center: true,
-                },
-                // {
-                //     name: 'Acciones',
-                //     sortable: false,
-                //     center: true,
-                //     cell: (element: Category) => <React.Fragment>
-                //         {/* <Button
-                //             variant="outline-warning"
-                //             size="sm"
-                //             onClick={() => this.edit(element)}
-                //             key={`edit-${element.id}`}
-                //             tooltip={true}
-                //             labelTooltip="EDITAR"
-                //             icon="edit"
-                //         /> */}
-                //         <Button
-                //             variant="outline-danger"
-                //             size="sm"
-                //             onClick={() => this.delete(element)}
-                //             key={`delete-${element.categori_id}`}
-                //             tooltip={true}
-                //             labelTooltip="ELIMINAR"
-                //             icon="trash"
-                //         />
-                //     </React.Fragment>
-                // }
+                }
             ],
             categories: []
         }
