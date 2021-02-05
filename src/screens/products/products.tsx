@@ -95,7 +95,7 @@ class Products extends React.Component<Props, State> {
     load = async () => {
         Globals.setLoading()
         try{
-            const products = await ProductService.get()
+            let products = await ProductService.get()
             const categories = await CategoryService.get()
             const categoriesSelect = categories.map((element: Category) => {
                 return {
@@ -103,6 +103,17 @@ class Products extends React.Component<Props, State> {
                     value: element.categori_id
                 }
             })
+            products = products.map((element: Product): Product => {
+                element.categories = element.categories.map((category: number | Category): number | Category => {
+                    let item = categories.find((_element: Category) => _element.categori_id === category)
+                    if(item)
+                        category = item
+                    return category
+
+                })
+                return element
+            })
+            console.log('>>: products > ', products)
             this.setState({
                 products,
                 categories,
