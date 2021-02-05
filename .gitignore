@@ -1,0 +1,9 @@
+.env
+/node_modules
+/build/*
+/.idea
+debug.log
+*.log
+.eslintcache
+_admin
+_admin/*
