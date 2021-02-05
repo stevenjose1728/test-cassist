@@ -10,6 +10,7 @@ type State = {
     editElement: Product | null,
     columns: DataTableColumn[],
     products: Product[],
+    originalProducts: Product[],
     categories: Category[],
     categoriesSelect: Array<{
         label: string,
@@ -88,7 +89,8 @@ class Products extends React.Component<Props, State> {
                 }
             ],
             categories: [],
-            products: []
+            products: [],
+            originalProducts: []
         }
     }
     componentDidMount(){
@@ -124,6 +126,7 @@ class Products extends React.Component<Props, State> {
                 return element
             })
             this.setState({
+                originalProducts: products,
                 products,
                 categories,
                 categoriesSelect
@@ -135,6 +138,17 @@ class Products extends React.Component<Props, State> {
     }
 
     filterByCategory = () => {
+        console.log('>>: category_id > ', this.state.form)
+        let products = [... this.state.originalProducts]
+        products = products.filter((element: Product) => {
+            console.log('>>: product > ', element)
+            const canReturn = element.categories.some((category: number | Category) => typeof category !== 'number' && category.categori_id == this.state.form.category_id)
+            return canReturn
+        })
+        this.setState({
+            products
+        })
+        console.log('>>: products filtered > ', products)
         console.log('>>: prueba de callback')
     }
 
