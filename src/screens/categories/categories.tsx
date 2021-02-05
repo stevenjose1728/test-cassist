@@ -58,21 +58,6 @@ class Categories extends React.Component<Props, State> {
         }
         Globals.quitLoading()
     }
-    
-    onClose = () => {
-        this.setState({
-            ...this.state,
-            showModal:false,
-            editElement: null
-        }, () => this.load())
-    }
-
-    newCategory(){
-        this.setState({
-            ...this.state,
-            showModal: true
-        });
-    }
 
     render() {
         return (
