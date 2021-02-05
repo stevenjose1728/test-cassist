@@ -61,7 +61,7 @@ class Products extends React.Component<Props, State> {
                     selector: 'categories',
                     sortable: true,
                     center: true,
-                    cell: (element: Product) => <p className="text dark w-100 text-center"> {
+                    cell: (element: Product) => <p className="text-dark w-100 text-center"> {
                         element.categories.map((element: number | Category) => typeof element === 'number' ? '' : element.name)
                             .join(' | ')
                     } </p>
@@ -133,7 +133,12 @@ class Products extends React.Component<Props, State> {
         }
         Globals.quitLoading()
     }
-    change = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>{
+
+    filterByCategory = () => {
+        console.log('>>: prueba de callback')
+    }
+
+    change = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, callback: Function | undefined = undefined) =>{
         const name = e.target.name
         const value = e.target.value
         this.setState({
@@ -142,6 +147,9 @@ class Products extends React.Component<Props, State> {
                 ... this.state.form,
                 [name]: value
             }
+        }, () => {
+            if(callback)
+                callback()
         })
     }
     render() {
@@ -159,7 +167,7 @@ class Products extends React.Component<Props, State> {
                                         label="Categoria"
                                         enableAll={true}
                                         name="category_id"
-                                        onChange={this.change}
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.change(e, this.filterByCategory)}
                                         value={this.state.form.category_id}
                                         options={this.state.categoriesSelect}
                                     />

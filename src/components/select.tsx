@@ -32,15 +32,6 @@ export default class Select extends React.Component<SelectProps, {value:string|n
         }
     }
 
-    handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const {value} = e.target;
-        console.log(value)
-        this.setState({
-            value: value
-        });
-        this.props.onChange(value);
-    }
-
     render() {
         return (
 
@@ -64,7 +55,7 @@ export default class Select extends React.Component<SelectProps, {value:string|n
                 <select  
                     name={this.props.name}
                     className={ `form-control ${ this.props.className }` }
-                    onChange={this.handleChange}
+                    onChange={this.props.onChange}
                 >
 					<option value="" disabled={!this.props.enableAll}>Seleccione</option>
 					{ this.props.options.map((i,index) => {
