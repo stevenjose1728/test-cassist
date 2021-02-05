@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, Datatable, Modal, Button } from 'components';
+import { Card, CardHeader, Datatable,Select, Button } from 'components';
 import { Row, Col } from 'react-bootstrap';
 import {Product, DataTableColumn} from 'models';
 import {Globals} from 'utils';
@@ -9,7 +9,14 @@ type State = {
     showModal:boolean,
     editElement: Product | null,
     columns: DataTableColumn[],
-    categories: Product[]
+    categories: Product[],
+    categoriesSelect: Array<{
+        label: string,
+        value: number | string
+    }>,
+    form: {
+        category_id: number | string,
+    }
 }
 type Props = RouteComponentProps
 class Products extends React.Component<Props, State> {
@@ -18,6 +25,10 @@ class Products extends React.Component<Props, State> {
         this.state = {
             showModal: false,
             editElement: null,
+            categoriesSelect: [],
+            form:{
+                category_id: ''
+            },
             columns: [
                 {
                     name: '#',
@@ -91,7 +102,17 @@ class Products extends React.Component<Props, State> {
         }
         Globals.quitLoading()
     }
-
+    change = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>{
+        const name = e.target.name
+        const value = e.target.value
+        this.setState({
+            ... this.state,
+            form:{
+                ... this.state.form,
+                [name]: value
+            }
+        })
+    }
     render() {
         return (
             <React.Fragment>
@@ -101,6 +122,18 @@ class Products extends React.Component<Props, State> {
                             <CardHeader>
                                 Listado de Productos
                             </CardHeader>
+                            <div className="row">
+                                <div className="col-4">
+                                    <Select
+                                        name="category_id"
+                                        onChange={this.change}
+                                        value={this.state.form.category_id}
+                                        options={this.state.categoriesSelect}
+                                    />
+                                </div>
+                                <div className="col-4"></div>
+                                <div className="col-4"></div>
+                            </div>
                         </Col>
                         <Col md={12}>
                             <Datatable

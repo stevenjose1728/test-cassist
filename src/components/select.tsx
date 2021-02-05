@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 
 type Options = {
-    key: number | string,
+    value: number | string,
     label: string,
 }
 
@@ -70,7 +70,7 @@ export default class Select extends React.Component<SelectProps, {value:string|n
 						return (
 							<option 
 								key={ index } 
-								value={ i.key }>
+								value={ i.value }>
 								{ i.label }
 							</option>
 						)				
