@@ -57,6 +57,16 @@ class Products extends React.Component<Props, State> {
                     center: true,
                 },
                 {
+                    name: 'Categorias',
+                    selector: 'categories',
+                    sortable: true,
+                    center: true,
+                    cell: (element: Product) => <p className="text dark w-100 text-center"> {
+                        element.categories.map((element: number | Category) => typeof element === 'number' ? '' : element.name)
+                            .join(' | ')
+                    } </p>
+                },
+                {
                     name: 'Disponible',
                     selector: 'available',
                     sortable: true,
