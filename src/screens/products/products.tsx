@@ -113,7 +113,6 @@ class Products extends React.Component<Props, State> {
                 })
                 return element
             })
-            console.log('>>: products > ', products)
             this.setState({
                 products,
                 categories,
