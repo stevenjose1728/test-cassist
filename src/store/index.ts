@@ -4,7 +4,7 @@ import {rootReducer as reducers} from '../reducers';
 import AsyncStorage from 'redux-persist/lib/storage';
 
 const persistConfig = {
-    key: 'marketplace-web',
+    key: 'test',
     storage: AsyncStorage
 };
 const persistedReducer = persistReducer(persistConfig, reducers);

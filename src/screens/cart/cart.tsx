@@ -1,18 +1,13 @@
 import React from 'react';
 import { Card, CardHeader, Datatable } from 'components';
 import { Row, Col } from 'react-bootstrap';
-import {Category, DataTableColumn} from 'models';
-import {Globals} from 'utils';
+import {Product, DataTableColumn} from 'models';
 import {RouteComponentProps} from 'react-router'
-import {CategoryService} from 'services';
 import { connect, ConnectedProps } from "react-redux";
 import {RootState} from 'reducers'
 
 type State = {
-    showModal:boolean,
-    editElement: Category | null,
     columns: DataTableColumn[],
-    categories: Category[]
 }
 const mapState = (state: RootState) => ({
     cart: state.cart
@@ -25,12 +20,10 @@ class Cart extends React.Component<Props, State> {
     constructor(props:Props){
         super(props);
         this.state = {
-            showModal: false,
-            editElement: null,
             columns: [
                 {
                     name: '#',
-                    selector: 'categori_id',
+                    selector: 'id',
                     sortable: false,
                     center: true,
                 },
@@ -41,31 +34,15 @@ class Cart extends React.Component<Props, State> {
                     center: true,
                 }
             ],
-            categories: []
         }
     }
     componentDidMount(){
         this.load()
+        console.log('>>: cart > ', this.props.cart)
     }
 
-    edit = (element: Category) => {
-        this.setState({
-            showModal: true,
-            editElement: element
-        })
-    }
 
     load = async () => {
-        Globals.setLoading()
-        try{
-            const categories = await CategoryService.get()
-            this.setState({
-                categories
-            })
-        }catch(e){
-            Globals.showError()
-        }
-        Globals.quitLoading()
     }
 
     render() {
@@ -80,10 +57,10 @@ class Cart extends React.Component<Props, State> {
                         </Col>
                         <Col md={12}>
                             <Datatable
-                                paginationTotalRows={this.state.categories.length}
+                                paginationTotalRows={this.props.cart?.length || 0}
                                 onChangePerPage={() => this.load() }
                                 onChangePage={() => this.load()}
-                                data={this.state.categories}
+                                data={this.props.cart}
                                 columns={this.state.columns}
                                 className="-striped -highlight"
                             />
