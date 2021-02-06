@@ -170,7 +170,7 @@ class Login extends Component<Props, State>{
                                                                 hasError={this.state.validation.form.email.hasError}
                                                                 msgError={this.state.validation.form.email.msgError}
                                                                 isDirty={this.state.validation.form.email.isDirty}
-                                                                onChange={(value:string | number ) => this.setValueForm('email', value.toString())}
+                                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setValueForm('email', e.target.value.toString())}
                                                             />
 
                                                             <Input
@@ -181,7 +181,7 @@ class Login extends Component<Props, State>{
                                                                 hasError={this.state.validation.form.password.hasError}
                                                                 msgError={this.state.validation.form.password.msgError}
                                                                 isDirty={this.state.validation.form.password.isDirty}
-                                                                onChange={(value:string | number) => this.setValueForm('password', value.toString())}
+                                                                onChange={(e: React.ChangeEvent<HTMLInputElement> ) => this.setValueForm('password', e.target.value.toString())}
                                                             />
                                                             <div className="form-terms">
                                                                 <div className="custom-control custom-checkbox mr-sm-2">
