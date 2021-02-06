@@ -4,6 +4,7 @@ export type Product = {
     name: string,
     price: string,
     available: boolean,
+    amount?: number,
     best_seller: boolean,
     categories: Array<number | Category>,
     img: string,

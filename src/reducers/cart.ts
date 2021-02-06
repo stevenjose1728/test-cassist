@@ -1,14 +1,14 @@
 import {Product} from 'models'
 interface Action {
-    payload: Product | null,
+    payload: Product[] | null,
     type: string
 }
 
-function user(state: Product | null = null, action: Action): Product | null {
+function user(state: Product[] | null = null, action: Action): Product[] | null {
 	switch(action.type) {
-		case 'SET_USER':
+		case 'SET_CART':
             return action.payload;
-        case 'REMOVE_USER':
+        case 'CLEAR_CART':
             return null;
         default:
         	return state;

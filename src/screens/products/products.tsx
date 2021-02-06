@@ -5,6 +5,9 @@ import {Product, DataTableColumn, Category} from 'models';
 import {Globals} from 'utils';
 import {RouteComponentProps} from 'react-router'
 import {ProductService, CategoryService} from 'services';
+import {RootState} from 'reducers'
+import { connect, ConnectedProps, DispatchProp } from "react-redux";
+
 type OptionSelect = {
     label: string,
     value: string | number
@@ -28,7 +31,13 @@ type State = {
     priceSelect: OptionSelect[],
     form: Form
 }
-type Props = RouteComponentProps
+const mapState = (state: RootState) => ({
+    cart: state.cart
+});
+
+const connector = connect(mapState);  
+type Props = ConnectedProps<typeof connector> &
+RouteComponentProps;
 class Products extends React.Component<Props, State> {
     constructor(props:Props){
         super(props);
@@ -187,8 +196,32 @@ class Products extends React.Component<Props, State> {
         Globals.quitLoading()
     }
 
-    addCart = (element: Product) => {
-        console.log('>>: element > ', element)
+    addCart = async (element: Product) => {
+        let products = this.props.cart || []
+        const index = products.findIndex((_element: Product) => _element.id === element.id)
+        if(products.length > 0 && index !== -1){
+            const item = products[index]
+            let amount = 0
+            console.log('>>: index > ', index)
+            if(item.amount){
+                amount = item.amount + 1
+            }
+            products[index] = {
+                ... products[index],
+                amount
+            }
+            Globals.showSuccess('Cantidad del producto aumentada exitosamente')
+        }else{
+            products.push({
+                ... element,
+                amount: 1
+            })
+            Globals.showSuccess('Producto añadido al carrito exitosamente')
+        }
+        await this.props.dispatch({
+            type: 'SET_CART',
+            payload: products
+        })
     }
 
     filterByCategory = (_products: Product[]): Product[] => {
@@ -369,4 +402,4 @@ class Products extends React.Component<Props, State> {
     }
 }
 
-export default Products;
+export default connector(Products);
