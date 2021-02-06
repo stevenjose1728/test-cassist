@@ -243,6 +243,9 @@ class Products extends React.Component<Props, State> {
                     case 'price':
                         products = this.filterByPriceAmount(products)
                         break
+                    case 'stock':
+                        products = this.filterByStock(products)
+                        break
                 }
             }
         }
