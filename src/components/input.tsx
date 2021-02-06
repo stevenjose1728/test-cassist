@@ -1,11 +1,10 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import { SketchPicker } from 'react-color'
 
 interface InputProps {
     name: string,
-    type?: string,
-    color?: string,
+    type: string,
+    value: string|number,
     label?:string,
     labelClass?:string,
     isRequired?:boolean,
@@ -14,12 +13,12 @@ interface InputProps {
     hasError?:boolean,
     msgError?:string,
     isDirty?:boolean,
-    onChange: (val: string | number) => void,
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
     required?:boolean,
-    value?: string | number
+    disabled?: boolean
 }
 
-const InputColor = (props: InputProps) => {
+const Input = (props: InputProps) => {
     return (
         <Form.Group className="form-group">
             {
@@ -36,19 +35,16 @@ const InputColor = (props: InputProps) => {
                     </Form.Label>
                 )
             }
-            <SketchPicker 
-                color={props.color}
-                onChangeComplete={ (color, event) => props.onChange(color.hex) }
-            />
-            {/*<input
+            <input
+                disabled={props.disabled}
                 name={props.name}
                 type={props.type}
                 className={ `form-control ${props.className || ''} ${props.hasError ? 'is-invalid' : ''} ${props?.isDirty && !props.hasError ? 'is-valid' : ''}` }
                 placeholder={props.placeholder}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.onChange?.(e.target.value)}
+                onChange={props.onChange}
                 value={props.value}
                 required={props.required || false}
-            />*/}
+            />
             {
                 props.msgError && (
                     <div className="invalid-feedback">
@@ -59,4 +55,4 @@ const InputColor = (props: InputProps) => {
         </Form.Group>
     )
 }
-export default InputColor;
+export default Input;
