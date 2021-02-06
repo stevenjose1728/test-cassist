@@ -1,11 +1,10 @@
 import React from 'react';
-import { Card, CardHeader, Datatable,Select, Input } from 'components';
+import { Card, CardHeader, Datatable,Select, Input, Button } from 'components';
 import { Row, Col } from 'react-bootstrap';
 import {Product, DataTableColumn, Category} from 'models';
 import {Globals} from 'utils';
 import {RouteComponentProps} from 'react-router'
 import {ProductService, CategoryService} from 'services';
-import { copyFile } from 'fs';
 type OptionSelect = {
     label: string,
     value: string | number
@@ -122,7 +121,22 @@ class Products extends React.Component<Props, State> {
                     selector: 'description',
                     sortable: true,
                     center: true,
-                }
+                },
+                {
+                    name: 'Acciones',
+                    selector: '',
+                    sortable: true,
+                    center: true,
+                    cell: (element: Product) => <React.Fragment>
+                        <Button
+                            onClick={() => this.addCart(element)}
+                            variant="primary"
+                            icon="shopping-cart"
+                            tooltip={true}
+                            labelTooltip="Añadir al carrito"
+                        />
+                    </React.Fragment>
+                },
             ],
             categories: [],
             products: [],
@@ -171,6 +185,10 @@ class Products extends React.Component<Props, State> {
             Globals.showError()
         }
         Globals.quitLoading()
+    }
+
+    addCart = (element: Product) => {
+        console.log('>>: element > ', element)
     }
 
     filterByCategory = (_products: Product[]): Product[] => {
