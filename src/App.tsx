@@ -18,6 +18,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import Categories from 'screens/categories/categories'
 import Dashboard from 'screens/dashboard';
 import Products from 'screens/products/products'
+import Cart from 'screens/cart/cart'
 import App from 'screens/app'
 class _App extends React.Component {
 	routes = [
@@ -45,12 +46,17 @@ class _App extends React.Component {
 									exact
 									path={'/'}
 									component={Dashboard}
-									/>
+								/>
 								<Route
 									exact
 									path={'/categories'}
 									component={Categories}
-									/>
+								/>
+								<Route
+									exact
+									path={'/cart'}
+									component={Cart}
+								/>
 								<Route
 									exact
 									path={'/products'}
