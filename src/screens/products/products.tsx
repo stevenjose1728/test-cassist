@@ -202,7 +202,6 @@ class Products extends React.Component<Props, State> {
         if(products.length > 0 && index !== -1){
             const item = products[index]
             let amount = 0
-            console.log('>>: index > ', index)
             if(item.amount){
                 amount = item.amount + 1
             }
