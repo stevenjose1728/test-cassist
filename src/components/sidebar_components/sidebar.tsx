@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { MENUITEMS as adminMenu } from 'constants/menu';
 import {connect} from "react-redux";
 // image import
-import logo from '../../assets/images/logo-market.png';
 import { MainMenu } from 'models';
+import {RootState} from 'reducers'
 interface SidebarState {
     mainmenu: Array<MainMenu>,
 }
@@ -187,7 +187,7 @@ class sidebar extends Component<any, SidebarState> {
     }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: RootState) => ({
     user: state.user
 })
 
