@@ -5,6 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Project use:
 ReactJS: 17.0.1
 Language: JS
+To can run need to make a copy of .env.example called .env will have url_api base
 ## Available Scripts
 
 In the project directory, you can run:
