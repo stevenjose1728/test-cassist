@@ -9,6 +9,13 @@ type OptionSelect = {
     label: string,
     value: string | number
 }
+
+type Form = {
+    category_id: number | string,
+    stock: number | string,
+    price: number | string,
+    name: string
+}
 type State = {
     showModal:boolean,
     editElement: Product | null,
@@ -19,12 +26,7 @@ type State = {
     categoriesSelect: Array<OptionSelect>,
     stockSelect: OptionSelect[],
     priceSelect: OptionSelect[],
-    form: {
-        category_id: number | string,
-        stock: number | string,
-        price: number | string,
-        name: string
-    }
+    form: Form
 }
 type Props = RouteComponentProps
 class Products extends React.Component<Props, State> {
@@ -170,18 +172,16 @@ class Products extends React.Component<Props, State> {
         Globals.quitLoading()
     }
 
-    filterByCategory = () => {
-        let products = [... this.state.originalProducts]
+    filterByCategory = (_products: Product[]): Product[] => {
+        let products = [... _products]
         products = products.filter((element: Product) => {
             const canReturn = element.categories.some((category: number | Category) => typeof category !== 'number' && category.categori_id == this.state.form.category_id)
             return canReturn
         })
-        this.setState({
-            products
-        })
+        return products
     }
 
-    filterByStock = () =>{
+    filterByStock = (_products: Product[]): Product[] =>{
         let condition: {
             key: keyof Product,
             value: boolean
@@ -206,15 +206,13 @@ class Products extends React.Component<Props, State> {
                 }
                 break
         }
-        let products = [... this.state.originalProducts]
+        let products = [... _products]
         products = products.filter((element: Product) => element[condition.key] === condition.value)
-        this.setState({
-            products
-        })
+        return products
     }
 
-    filterByPriceAmount = () => {
-        let products = [... this.state.originalProducts]
+    filterByPriceAmount = (_products: Product[]): Product[] => {
+        let products = [... _products]
         const orderByMostPrice: number = typeof this.state.form.price === 'string' ? parseInt(this.state.form.price) : this.state.form.price
         products = products.filter((element: Product) => {
             const price = parseFloat(element.price.replace('.', ''))
@@ -225,16 +223,32 @@ class Products extends React.Component<Props, State> {
                 return price <= 10000
             }
         })
-        this.setState({
-            products
-        })
+        return products
     }
 
-    filterByName = () => {
+    filterByName = (_products: Product[]) => {
+        let products = [... _products]
         console.log('>>: filter by name')
     }
 
     setFilters = () => {
+        let products: Product[] = [... this.state.originalProducts]
+        for(let key of Object.keys(this.state.form)){
+            //@ts-ignore
+            if(this.state.form[key]){
+                switch(key){
+                    case 'category_id':
+                        products = this.filterByCategory(products)
+                        break
+                    case 'price':
+                        products = this.filterByPriceAmount(products)
+                        break
+                }
+            }
+        }
+        this.setState({
+            products
+        })
         console.log('>>: setFilters > ', this.state.form)
     }
 
