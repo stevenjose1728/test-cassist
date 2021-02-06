@@ -166,11 +166,12 @@ class sidebar extends Component<any, SidebarState> {
                     <div className="main-header-left d-none d-lg-block">
                         <div className="logo-wrapper">
                             <Link to={`${process.env.PUBLIC_URL}/dashboard`}>
-                                <img
+                                {/* <img
                                     id="logo-principal-app"
                                     className="blur-up lazyloaded logo-principal-app"
-                                    src={logo} alt=""
-                                />
+                                    src={logo}
+                                    alt=""
+                                /> */}
                             </Link>
                         </div>
                     </div>
