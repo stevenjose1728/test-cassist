@@ -65,6 +65,17 @@ class Cart extends React.Component<Props, State> {
                     } </p>
                 },
                 {
+                    name: 'Total',
+                    selector: 'price',
+                    sortable: false,
+                    center: true,
+                    cell: (element: Product) => <p className="text-dark w-100 text-center">
+                        {
+                            parseFloat(element.price.replace('.', '')) * (element.amount || 1)
+                        }
+                    </p>
+                },
+                {
                     name: 'Precio',
                     selector: 'price',
                     sortable: false,
