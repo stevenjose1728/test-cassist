@@ -18,9 +18,11 @@ type State = {
     categories: Category[],
     categoriesSelect: Array<OptionSelect>,
     stockSelect: OptionSelect[],
+    priceSelect: OptionSelect[],
     form: {
         category_id: number | string,
         stock: number | string,
+        price: number | string,
     }
 }
 type Props = RouteComponentProps
@@ -45,9 +47,20 @@ class Products extends React.Component<Props, State> {
                     value: 3
                 },
             ],
+            priceSelect: [
+                {
+                    label: 'Mayor a 30.000',
+                    value: 0
+                },
+                {
+                    label: 'Menor a 10.000',
+                    value: 1
+                }
+            ],
             form:{
                 category_id: '',
-                stock: ''
+                stock: '',
+                price: ''
             },
             columns: [
                 {
@@ -198,6 +211,23 @@ class Products extends React.Component<Props, State> {
         })
     }
 
+    filterByPriceAmount = () => {
+        let products = [... this.state.originalProducts]
+        const orderByMostPrice: number = typeof this.state.form.price === 'string' ? parseInt(this.state.form.price) : this.state.form.price
+        products = products.filter((element: Product) => {
+            const price = parseFloat(element.price.replace('.', ''))
+            if(!orderByMostPrice){
+                return price >= 30000
+            }
+            else{
+                return price <= 10000
+            }
+        })
+        this.setState({
+            products
+        })
+    }
+
     change = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, callback: Function | undefined = undefined) =>{
         const name = e.target.name
         const value = e.target.value
@@ -242,7 +272,16 @@ class Products extends React.Component<Props, State> {
                                         options={this.state.stockSelect}
                                     />
                                 </div>
-                                <div className="col-4"></div>
+                                <div className="col-4">
+                                    <Select
+                                        label="Precio"
+                                        enableAll={true}
+                                        name="price"
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.change(e, this.filterByPriceAmount)}
+                                        value={this.state.form.price}
+                                        options={this.state.priceSelect}
+                                    />
+                                </div>
                             </div>
                         </Col>
                         <Col md={12}>
