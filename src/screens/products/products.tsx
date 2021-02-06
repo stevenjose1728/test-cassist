@@ -5,6 +5,7 @@ import {Product, DataTableColumn, Category} from 'models';
 import {Globals} from 'utils';
 import {RouteComponentProps} from 'react-router'
 import {ProductService, CategoryService} from 'services';
+import { copyFile } from 'fs';
 type OptionSelect = {
     label: string,
     value: string | number
@@ -228,7 +229,16 @@ class Products extends React.Component<Props, State> {
 
     filterByName = (_products: Product[]) => {
         let products = [... _products]
-        console.log('>>: filter by name')
+        const {name} = this.state.form
+        products = products.filter((element: Product) => {
+            const include = element.name.includes(name)
+            if (include) {
+                return true
+            }else{
+                return false
+            }
+        })
+        return products
     }
 
     setFilters = () => {
@@ -246,6 +256,10 @@ class Products extends React.Component<Props, State> {
                     case 'stock':
                         products = this.filterByStock(products)
                         break
+                    case 'name':
+                        products = this.filterByName(products)
+                        break
+
                 }
             }
         }
