@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, Datatable,Select, Button } from 'components';
+import { Card, CardHeader, Datatable,Select, Input } from 'components';
 import { Row, Col } from 'react-bootstrap';
 import {Product, DataTableColumn, Category} from 'models';
 import {Globals} from 'utils';
@@ -23,6 +23,7 @@ type State = {
         category_id: number | string,
         stock: number | string,
         price: number | string,
+        name: string
     }
 }
 type Props = RouteComponentProps
@@ -60,7 +61,8 @@ class Products extends React.Component<Props, State> {
             form:{
                 category_id: '',
                 stock: '',
-                price: ''
+                price: '',
+                name: ''
             },
             columns: [
                 {
@@ -228,7 +230,16 @@ class Products extends React.Component<Props, State> {
         })
     }
 
-    change = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, callback: Function | undefined = undefined) =>{
+    filterByName = () => {
+        console.log('>>: filter by name')
+    }
+
+    setFilters = () => {
+        console.log('>>: setFilters > ', this.state.form)
+    }
+
+
+    change = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>{
         const name = e.target.name
         const value = e.target.value
         this.setState({
@@ -238,8 +249,7 @@ class Products extends React.Component<Props, State> {
                 [name]: value
             }
         }, () => {
-            if(callback)
-                callback()
+            this.setFilters()
         })
     }
     render() {
@@ -252,34 +262,43 @@ class Products extends React.Component<Props, State> {
                                 Listado de Productos
                             </CardHeader>
                             <div className="row">
-                                <div className="col-4">
+                                <div className="col-md-3 col-sm-6">
                                     <Select
                                         label="Categoria"
                                         enableAll={true}
                                         name="category_id"
-                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.change(e, this.filterByCategory)}
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.change(e)}
                                         value={this.state.form.category_id}
                                         options={this.state.categoriesSelect}
                                     />
                                 </div>
-                                <div className="col-4">
+                                <div className="col-md-3 col-sm-6">
                                     <Select
                                         label="Stock"
                                         enableAll={true}
                                         name="stock"
-                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.change(e, this.filterByStock)}
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.change(e)}
                                         value={this.state.form.stock}
                                         options={this.state.stockSelect}
                                     />
                                 </div>
-                                <div className="col-4">
+                                <div className="col-md-3 col-sm-6">
                                     <Select
                                         label="Precio"
                                         enableAll={true}
                                         name="price"
-                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.change(e, this.filterByPriceAmount)}
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => this.change(e)}
                                         value={this.state.form.price}
                                         options={this.state.priceSelect}
+                                    />
+                                </div>
+                                <div className="col-md-3 col-sm-6">
+                                    <Input
+                                        type="text"
+                                        name="name"
+                                        label="Nombre del producto"
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.change(e)}
+                                        value={this.state.form.name}
                                     />
                                 </div>
                             </div>
