@@ -6,7 +6,7 @@ import {Globals} from 'utils';
 import {RouteComponentProps} from 'react-router'
 import {ProductService, CategoryService} from 'services';
 import {RootState} from 'reducers'
-import { connect, ConnectedProps, DispatchProp } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 
 type OptionSelect = {
     label: string,

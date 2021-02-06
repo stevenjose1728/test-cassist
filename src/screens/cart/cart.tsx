@@ -1,17 +1,26 @@
 import React from 'react';
-import { Card, CardHeader, Datatable, Modal, Button } from 'components';
+import { Card, CardHeader, Datatable } from 'components';
 import { Row, Col } from 'react-bootstrap';
-import {Category, DataTableColumn, PaginationType, PaginationDefault} from 'models';
+import {Category, DataTableColumn} from 'models';
 import {Globals} from 'utils';
 import {RouteComponentProps} from 'react-router'
 import {CategoryService} from 'services';
+import { connect, ConnectedProps } from "react-redux";
+import {RootState} from 'reducers'
+
 type State = {
     showModal:boolean,
     editElement: Category | null,
     columns: DataTableColumn[],
     categories: Category[]
 }
-type Props = RouteComponentProps
+const mapState = (state: RootState) => ({
+    cart: state.cart
+})
+
+const connector = connect(mapState);  
+type Props = ConnectedProps<typeof connector> &
+    RouteComponentProps;
 class Cart extends React.Component<Props, State> {
     constructor(props:Props){
         super(props);
@@ -86,4 +95,4 @@ class Cart extends React.Component<Props, State> {
     }
 }
 
-export default Cart;
+export default connector(Cart);

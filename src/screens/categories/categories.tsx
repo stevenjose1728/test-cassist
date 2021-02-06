@@ -1,10 +1,11 @@
 import React from 'react';
 import { Card, CardHeader, Datatable, Modal, Button } from 'components';
 import { Row, Col } from 'react-bootstrap';
-import {Category, DataTableColumn, PaginationType, PaginationDefault} from 'models';
+import {Category, DataTableColumn} from 'models';
 import {Globals} from 'utils';
 import {RouteComponentProps} from 'react-router'
 import {CategoryService} from 'services';
+
 type State = {
     showModal:boolean,
     editElement: Category | null,
